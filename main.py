@@ -70,14 +70,14 @@ class Game():
 
         self.buttons = []
         header = 32
-        xs = 10
-        ys = 10
+        xs = 16
+        ys = 8
         g = 8
         w = (self.WIDTH-g*(xs+1))/xs
         h = (self.HEIGHT-header-g*(ys+1))/ys
 
-        for x in range(xs):
-            for y in range(ys):
+        for y in range(ys):
+            for x in range(xs):
                 value = 0
                 self.buttons.append(Button(self.WIN, self.main_font,
                                            self.colors.WHITE, self.colors.BLACK, str(value), x*(w+g)+g, y*(h+g)+g+header, w,  h, self.bank.add, value))
@@ -103,21 +103,12 @@ class Game():
     def level_up(self):
         self.level += 1
         self.max = 10 ** self.level
-        for set in range(self.level):
-            for i in range(len(self.buttons)//(set+1)):
-                value = random.randint(0, (self.max/(10**set)+1))
-                self.buttons[i+set].text = str(value)
-                self.buttons[i + set].args = value
-                #r = int(self.translate(value, 0, self.max, 1, 254))
-                #g = int(self.translate(value, 0, self.max, 255, 0))
-                #c = pygame.Color(int((value/self.max)*255), 0, 0,)
-                c = pygame.Color(int((value/self.max)*220),
-                                 int(255-(value/self.max)*220), 0)
-                print(c)
-                self.buttons[i + set].bg = c
+        for i in range(len(self.buttons)):
+            self.buttons[i].text = str(10*i)
+            self.buttons[i].args = 10*i
 
     def redraw_window(self):
-        self.WIN.fill(self.colors.BLACK)
+        self.WIN.fill((51,51,51))
 
         fps_label = self.main_font.render(
             f"FPS: {int(self.clock.get_fps())}", 1, self.colors.WHITE)
